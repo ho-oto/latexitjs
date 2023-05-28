@@ -21,50 +21,21 @@ var argv = require("yargs")
       boolean: true,
       describe: "process as inline math",
     },
-    em: {
-      default: 16,
-      describe: "em-size in pixels",
-    },
-    ex: {
-      default: 8,
-      describe: "ex-size in pixels",
-    },
-    width: {
-      default: 80 * 16,
-      describe: "width of container in pixels",
-    },
-    dist: {
-      boolean: true,
-      default: false,
-      describe:
-        "true to use webpacked version, false to use MathJax source files",
-    },
   }).argv;
 
 require("mathjax-full")
   .init({
-    options: {
-      enableAssistiveMml: false,
-    },
     loader: {
-      load: ["tex-svg", "[tex]/ams", "[tex]/mathtools"],
+      source: require("mathjax-full/components/src/source.js").source,
+      load: ["input/tex", "output/svg", "[tex]/mathtools"],
     },
     tex: {
       packages: ["base", "ams", "mathtools"],
-    },
-    svg: {
-      fontCache: "local",
-    },
-    startup: {
-      typeset: false,
     },
   })
   .then((MathJax) => {
     MathJax.tex2svgPromise(input, {
       display: !argv.inline,
-      em: argv.em,
-      ex: argv.ex,
-      containerWidth: argv.width,
     }).then((node) => {
       const adaptor = MathJax.startup.adaptor;
       let html = adaptor.innerHTML(node);
