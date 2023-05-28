@@ -1,5 +1,3 @@
-#! /usr/bin/env -S node -r esm
-
 const CSS = [
   "svg a{fill:blue;stroke:blue}",
   '[data-mml-node="merror"]>g{fill:red;stroke:red}',
