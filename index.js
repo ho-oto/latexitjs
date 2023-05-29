@@ -19,6 +19,10 @@ var argv = require("yargs")
       boolean: true,
       describe: "process as inline math",
     },
+    maspace: {
+      boolean: true,
+      describe: "use [maSpace](https://github.com/ho-oto/maSpace)",
+    },
   }).argv;
 
 require("mathjax-full")
@@ -32,12 +36,17 @@ require("mathjax-full")
     },
   })
   .then((MathJax) => {
-    MathJax.tex2svgPromise(input, {
-      display: !argv.inline,
-    }).then((node) => {
+    MathJax.tex2svgPromise(
+      argv.maspace ? require("maspace").maspace_to_tex_wasm(input) : input,
+      {
+        display: !argv.inline,
+      }
+    ).then((node) => {
       const adaptor = MathJax.startup.adaptor;
-      let html = adaptor.innerHTML(node);
-      console.log(html.replace(/<defs>/, `<defs><style>${CSS}</style>`));
+      let html = adaptor
+        .innerHTML(node)
+        .replace(/<defs>/, `<defs><style>${CSS}</style>`);
+      console.log(html);
     });
   })
   .catch((err) => console.log(err));

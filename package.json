@@ -9,6 +9,7 @@
   "author": "Hayate Nakano",
   "license": "MIT",
   "dependencies": {
+    "maspace": "^0.1.0",
     "mathjax-full": "^3.2.2",
     "yargs": "^17.7.2"
   },
